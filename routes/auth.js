@@ -45,10 +45,15 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
   })(req, res, next); // 미들웨어 내의 미들웨어에는 (req, res, next)를 붙입니다.
 });
 
-router.get('/logout', isLoggedIn, (req, res) => {
-  req.logout();
-  req.session.destroy();
-  res.redirect('/');
+router.get('/logout', isLoggedIn, (req, res, next) => {
+  // req.logout();              // passport 버전 0.5.0 코드
+  // req.session.destroy();
+  // res.redirect('/');
+  req.logout(function (err) {   // passport 버전 0.6.0 코드 req#logout requires a callback function 오류 수정
+    if (err) { return next(err);}
+    req.session.destroy();
+    res.redirect('/');
+  })
 });
 
 router.get('/kakao', passport.authenticate('kakao'));
