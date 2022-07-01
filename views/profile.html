@@ -6,7 +6,10 @@
       <h2>팔로잉 목록</h2>
       {% if user.Followings %}
         {% for following in user.Followings %}
-          <div>{{following.nick}}</div>
+          <div>
+            {{following.nick}}
+<!--            <button class="twit-followend">팔로잉 해제</button>-->
+          </div>
         {% endfor %}
       {% endif %}
     </div>
@@ -19,4 +22,34 @@
       {% endif %}
     </div>
   </div>
+  <div class="twits">
+    <div class="twit">
+      <input type="hidden" value="{{twit.User.id}}" class="twit-user-id">
+    </div>
+  </div>
 {% endblock %}
+
+<!--{% block script %}-->
+<!--  <script>-->
+<!--    document.querySelectorAll('.twit-followend').forEach(function (tag) {-->
+<!--      tag.addEventListener('click', function() {-->
+<!--        const myId = document.querySelector('#my-id');-->
+<!--        if (myId) {-->
+<!--          const userId = tag.parentNode.querySelector('.twit-user-id');-->
+<!--          console.log(userId);-->
+<!--          if (userId !== myId) {-->
+<!--            if (confirm('팔로잉을 해제하시겠습니까?')) {-->
+<!--              axios.post(`/user/${userId}/followend`)-->
+<!--                      .then(() => {-->
+<!--                        location.reload();-->
+<!--                      })-->
+<!--                      .catch((err) => {-->
+<!--                        console.error(err);-->
+<!--                      });-->
+<!--            }-->
+<!--          }-->
+<!--        }-->
+<!--      });-->
+<!--    });-->
+<!--  </script>-->
+<!--{% endblock %}-->
