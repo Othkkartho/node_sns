@@ -7,11 +7,11 @@
       {% if user.Followings %}
         {% for following in user.Followings %}
           <div>
-            <div class="findNick">
+            <div class="findId_following">
               {{following.id}}
             </div>
-              {{following.nick}}
-              <button class="twit-followend">팔로잉 해제</button>
+            {{following.nick}}
+            <button class="twit-followend">팔로잉 해제</button>
           </div>
         {% endfor %}
       {% endif %}
@@ -20,7 +20,9 @@
       <h2>팔로워 목록</h2>
       {% if user.Followers %}
         {% for follower in user.Followers %}
-          <div>{{follower.nick}}</div>
+          <div>
+            {{follower.nick}}
+          </div>
         {% endfor %}
       {% endif %}
     </div>
@@ -33,7 +35,7 @@
       tag.addEventListener('click', function () {
         const isLoggedIn = document.querySelector('#my-id');
         if (isLoggedIn) {
-          const userId = tag.parentNode.querySelector('.findNick').innerHTML;
+          const userId = tag.parentNode.querySelector('.findId_following').innerHTML;
           const myId = isLoggedIn.value;
           if (userId !== myId) {
             if (confirm('팔로우를 끊습니까?')) {
