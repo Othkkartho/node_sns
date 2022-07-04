@@ -21,7 +21,19 @@
       {% if user.Followers %}
         {% for follower in user.Followers %}
           <div>
+            <div class="findId_follower">
+              {{follower.id}}
+            </div>
             {{follower.nick}}
+            {% set isFollowing = false %}
+            {% for following in user.Followings %}
+              {% if following.id === follower.id %}
+                {% set isFollowing = true %}
+              {% endif %}
+            {% endfor %}
+            {% if not isFollowing %}
+              <button class="twit-follow">팔로잉 하기</button>
+            {% endif %}
           </div>
         {% endfor %}
       {% endif %}
@@ -31,6 +43,31 @@
 
 {% block script %}
   <script>
+    document.querySelectorAll('.twit-follow').forEach(function (tag) {
+      tag.addEventListener('click', function () {
+        const isLoggedIn = document.querySelector('#my-id');
+        if (isLoggedIn) {
+          const userId = tag.parentNode.querySelector('.findId_follower').innerHTML;
+          const myId = isLoggedIn.value;
+          if (userId !== myId) {
+            if (confirm('팔로잉를 합니까?')) {
+              const xhr = new XMLHttpRequest();
+              xhr.onload = function () {
+                if (xhr.status === 200) {
+                  location.reload();
+                }
+                else {
+                  console.error(xhr.responseText);
+                }
+              };
+              xhr.open('POST', '/user/' + userId + '/follow');
+              xhr.send();
+            }
+          }
+        }
+      });
+    });
+
     document.querySelectorAll('.twit-followend').forEach(function (tag) {
       tag.addEventListener('click', function () {
         const isLoggedIn = document.querySelector('#my-id');

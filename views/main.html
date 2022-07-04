@@ -32,9 +32,9 @@
             <div class="twit-author">{{twit.User.nick}}</div>
             {% if user and user.id %}
               {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
-                <button class="twit-follow">팔로우하기</button>
-              {% else %}
-                <button class="twit-followend">팔로우해제</button>
+                <button class="twit-follow">팔로잉 하기</button>
+              {% elif followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
+                <button class="twit-followend">팔로잉 해제</button>
               {% endif %}
             {% endif %}
             <div class="twit-content">{{twit.content}}</div>
