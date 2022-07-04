@@ -33,7 +33,7 @@
             {% if user and user.id %}
               {% if not followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
                 <button class="twit-follow">팔로우하기</button>
-              {% else %}
+              {% elseif followerIdList.includes(twit.User.id) and twit.User.id !== user.id %}
                 <button class="twit-followend">팔로우해제</button>
               {% endif %}
             {% endif %}
