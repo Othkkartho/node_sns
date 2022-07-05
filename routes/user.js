@@ -35,4 +35,22 @@ router.post('/:id/followend', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post('/chang', isLoggedIn, async (req, res, next) => {
+  const changeName = req.body.name;
+
+  try {
+    const user = await User.findOne({ where: {id: req.user.id }})
+    if (user) {
+      User.update({nick: changeName}, { where: {id: req.user.id} });
+      res.send("success");
+    }
+    else {
+      res.status(404).send('no user');
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+})
+
 module.exports = router;

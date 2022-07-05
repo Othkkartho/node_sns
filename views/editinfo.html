@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="timeline">
+    <div>
+        <h2>회원정보 수정</h2>
+        <h3>닉네임</h3>
+        <input type="text" class="modifyNickname">
+        <button class="btn">수정하기</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelector('.btn').addEventListener('click', () => {
+            const input = document.querySelector('.modifyNickname');
+            const value = input.value;
+            input.value = '';
+
+            axios.post('/user/chang', { name: value })
+                .then((response) => { location.reload() })
+                .catch((error) => { console.err(error); })
+        });
+    </script>
+{% endblock %}
