@@ -23,6 +23,7 @@
             </div>
           <input id="my-id" type="hidden" value="{{user.id}}">
           <a id="my-profile" href="/profile" class="btn">내 프로필</a>
+          <a id="edit-profile" href="/editinfo" class="btn">개인정보 수정</a>
           <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
         {% else %}
           <form id="login-form" action="/auth/login" method="post">
@@ -36,6 +37,7 @@
             </div>
             <a id="join" href="/join" class="btn">회원가입</a>
             <button id="login" type="submit" class="btn">로그인</button>
+            <a id="editpw" href="/editidpw" class="btn">ID/PW 찾기</a>
             <a id="kakao" href="/auth/kakao" class="btn">카카오톡</a>
           </form>
         {% endif %}
