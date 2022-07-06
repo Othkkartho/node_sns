@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { isLoggedIn } = require('./middlewares');
+const { isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const User = require('../models/user');
 const bcrypt = require("bcrypt");
 
@@ -56,13 +56,13 @@ router.post('/changnick', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// router.post('/findid', isLoggedIn, async (req, res, next) => {
-//   const changeName = req.body.name;
+// router.post('/findid', isNotLoggedIn, async (req, res, next) => {
+//   const { nickName } = req.body;
 //
 //   try {
-//     const user = await User.findOne({ where: {id: req.user.id }})
+//     const user = await User.findOne({ where: {nick: nickName }})
 //     if (user) {
-//       User.update({nick: changeName}, { where: {id: req.user.id} });
+//       User.fi({nick: changeName}, { where: {id: req.user.id} });
 //       res.send("success");
 //     }
 //     else {
@@ -87,7 +87,7 @@ router.post('/changpw', isLoggedIn, async (req, res, next) => {
           if (new_password === new_password_check) {
             const hash = await bcrypt.hash(new_password, 12);
             await User.update({ password: hash }, {where: {id: req.user.id}});
-            res.send("success");
+            res.redirect('/auth/logout');
           }
         }
       }
