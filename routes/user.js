@@ -44,6 +44,7 @@ router.post('/changnick', isLoggedIn, async (req, res, next) => {
     const user = await User.findOne({ where: {id: req.user.id }});
     if (user) {
       await User.update({ nick: changNick }, { where: {id: req.user.id} });
+      res.send("success");
     }
     else {
       res.status(404).send('no user');
@@ -73,22 +74,31 @@ router.post('/changnick', isLoggedIn, async (req, res, next) => {
 //   }
 // });
 
-// router.post('/changpw', isLoggedIn, async (req, res, next) => {
-//   const changePw = req.body.name;
-//
-//   try {
-//     const user = await User.findOne({ where: {id: req.user.id }});
-//     if (user) {
-//       User.update({nick: changeName}, { where: {id: req.user.id} });
-//       res.send("success");
-//     }
-//     else {
-//       res.status(404).send('no user');
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     next(error);
-//   }
-// });
+router.post('/changpw', isLoggedIn, async (req, res, next) => {
+  const { current_password, new_password, new_password_check } = req.body;
+
+  try {
+    const user = await User.findOne({ where: {id: req.user.id }});
+    if (user) {
+      const match = await bcrypt.compare(current_password, req.user.password);
+      if (match) {
+        const match2 = await bcrypt.compare(new_password, req.user.password);
+        if (!match2) {
+          if (new_password === new_password_check) {
+            const hash = await bcrypt.hash(new_password, 12);
+            await User.update({ password: hash }, {where: {id: req.user.id}});
+            res.send("success");
+          }
+        }
+      }
+    }
+    else {
+      res.status(404).send('no user');
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 module.exports = router;
