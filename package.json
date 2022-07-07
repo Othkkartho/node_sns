@@ -20,7 +20,8 @@
     "passport-kakao": "^1.0.1",
     "passport-local": "^1.0.0",
     "sequelize": "^6.21.2",
-    "sequelize-pool": "^7.1.0"
+    "sequelize-pool": "^7.1.0",
+    "alert": "^5.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.18"
