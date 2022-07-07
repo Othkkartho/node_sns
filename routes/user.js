@@ -102,4 +102,15 @@ router.post('/changpw', isLoggedIn, async (req, res, next) => {
   }
 });
 
+router.post('/:id/userdelete', isLoggedIn, async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    await User.destroy({ where: {id: userId }});
+    res.send("success")
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 module.exports = router;

@@ -1,30 +1,58 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="timeline">
-    <div>
-        <form id="changNick-form" action="/user/changnick" method="post">
-            <h2>회원정보 수정</h2>
-            <div class="input-group">
-                <label for="chang-nickName">닉네임 변경</label>
-                <input id="chang-nickName" type="text" name="changNick">
-                <button id="chang-nickName-btn" type="submit" class="btn">수정하기</button>
-            </div>
-        </form>
-        <form id="changpw-form" action="/user/changpw" method="post">
-            <h3>비밀번호 변경</h3>
-            <div class="input-group">
-                <label for="current-password">현재 비밀번호</label>
-                <input id="current-password" type="password" name="current_password"></div>
-            <div class="input-group">
-                <label for="chang-password">새 비밀번호</label>
-                <input id="chang-password" type="password" name="new_password"></div>
-            <div class="input-group">
-                <label for="chang-password-check">새 비밀번호 확인</label>
-                <input id="chang-password-check" type="password" name="new_password_check">
-            </div>
-            <button id="changpw-btn" type="submit" class="btn">비밀번호 변경</button>
-        </form>
+    <div class="timeline">
+        <div>
+            <form id="changNick-form" action="/user/changnick" method="post">
+                <h2>회원정보 수정</h2>
+                <div class="input-group">
+                    <label for="chang-nickName">닉네임 변경</label>
+                    <input id="chang-nickName" type="text" name="changNick">
+                    <button id="chang-nickName-btn" type="submit" class="btn">수정하기</button>
+                </div>
+            </form>
+            <form id="changpw-form" action="/user/changpw" method="post">
+                <h3>비밀번호 변경</h3>
+                <div class="input-group">
+                    <label for="current-password">현재 비밀번호</label>
+                    <input id="current-password" type="password" name="current_password"></div>
+                <div class="input-group">
+                    <label for="chang-password">새 비밀번호</label>
+                    <input id="chang-password" type="password" name="new_password"></div>
+                <div class="input-group">
+                    <label for="chang-password-check">새 비밀번호 확인</label>
+                    <input id="chang-password-check" type="password" name="new_password_check">
+                </div>
+                <button id="changpw-btn" type="submit" class="btn">비밀번호 변경</button>
+            </form>
+<!--            <input type="hidden" value="{{user.id}}" class="user-id">-->
+            <button id="end-join-btn" class="endjoinBtn btn">회원 탈퇴하기</button>
+        </div>
     </div>
-</div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        document.querySelectorAll('.endjoinBtn').forEach(function (tag) {
+            tag.addEventListener('click', function () {
+                const isLoggedIn = document.querySelector('#my-id');
+                if (isLoggedIn) {
+                    const myId = isLoggedIn.value;
+                    if (confirm('회원 탈퇴를 합니까?')) {
+                        const xhr = new XMLHttpRequest();
+                        xhr.onload = function () {
+                            if (xhr.status === 200) {
+                                location.href = '/';
+                            }
+                            else {
+                                console.error(xhr.responseText);
+                            }
+                        };
+                        xhr.open('POST', '/user/' + myId + '/userdelete');
+                        xhr.send();
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}
