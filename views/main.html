@@ -37,6 +37,9 @@
                 <button class="twit-followend">팔로잉 해제</button>
               {% endif %}
             {% endif %}
+            {% if twit.User.id === user.id %}
+              <button class="twit-delete btn">삭제</button>
+            {% endif %}
             <div class="twit-content">{{twit.content}}</div>
             {% if twit.img %}
               <div class="twit-img"><img src="{{twit.img}}" alt="섬네일"></div>
@@ -73,12 +76,8 @@
           if (userId !== myId.value) {
             if (confirm('팔로잉하시겠습니까?')) {
               axios.post(`/user/${userId}/follow`)
-                .then(() => {
-                  location.reload();
-                })
-                .catch((err) => {
-                  console.error(err);
-                });
+                .then(() => { location.reload(); })
+                .catch((err) => { console.error(err); });
             }
           }
         }
@@ -92,12 +91,23 @@
           if (userId !== myId) {
             if (confirm('팔로잉을 해제하시겠습니까?')) {
               axios.post(`/user/${userId}/followend`)
-                      .then(() => {
-                        location.reload();
-                      })
-                      .catch((err) => {
-                        console.error(err);
-                      });
+                      .then(() => { location.reload(); })
+                      .catch((err) => { console.error(err); });
+            }
+          }
+        }
+      });
+    });
+    document.querySelectorAll('.twit-delete').forEach(function (tag) {
+      tag.addEventListener('click', function() {
+        const myId = document.querySelector('#my-id');
+        if (myId) {
+          const userId = tag.parentNode.querySelector('.twit-user-id').value;
+          if (userId !== myId) {
+            if (confirm('포스트를 삭제하시겠습니까?')) {
+              axios.post(`/post/${userId}/postdelete`)
+                      .then(() => { location.reload(); })
+                      .catch((err) => { console.error(err); });
             }
           }
         }
