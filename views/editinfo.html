@@ -25,7 +25,6 @@
                 </div>
                 <button id="changpw-btn" type="submit" class="btn">비밀번호 변경</button>
             </form>
-<!--            <input type="hidden" value="{{user.id}}" class="user-id">-->
             <button id="end-join-btn" class="endjoinBtn btn">회원 탈퇴하기</button>
         </div>
     </div>
@@ -39,17 +38,9 @@
                 if (isLoggedIn) {
                     const myId = isLoggedIn.value;
                     if (confirm('회원 탈퇴를 합니까?')) {
-                        const xhr = new XMLHttpRequest();
-                        xhr.onload = function () {
-                            if (xhr.status === 200) {
-                                location.href = '/';
-                            }
-                            else {
-                                console.error(xhr.responseText);
-                            }
-                        };
-                        xhr.open('POST', '/user/' + myId + '/userdelete');
-                        xhr.send();
+                        axios.post(`/user/${myId}/userdelete`)
+                            .then(() => { location.href = '/'; })
+                            .catch((err) => { console.error(err); });
                     }
                 }
             });

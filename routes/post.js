@@ -5,6 +5,7 @@ const fs = require('fs');
 
 const { Post, Hashtag } = require('../models');
 const { isLoggedIn } = require('./middlewares');
+const User = require("../models/user");
 
 const router = express.Router();
 
@@ -54,6 +55,17 @@ router.post('/', isLoggedIn, upload2.none(), async (req, res, next) => {
       await post.addHashtags(result.map(r => r[0]));
     }
     res.redirect('/');
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.post('/:id/postdelete', isLoggedIn, async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    await Post.destroy({ where: {id: userId }});
+    res.send("success")
   } catch (error) {
     console.error(error);
     next(error);
