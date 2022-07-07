@@ -3,6 +3,7 @@ const express = require('express');
 const { isLoggedIn, isNotLoggedIn} = require('./middlewares');
 const User = require('../models/user');
 const bcrypt = require("bcrypt");
+const alert = require("alert");
 
 const router = express.Router();
 
@@ -56,23 +57,23 @@ router.post('/changnick', isLoggedIn, async (req, res, next) => {
   }
 });
 
-// router.post('/findid', isNotLoggedIn, async (req, res, next) => {
-//   const { nickName } = req.body;
-//
-//   try {
-//     const user = await User.findOne({ where: {nick: nickName }})
-//     if (user) {
-//       User.fi({nick: changeName}, { where: {id: req.user.id} });
-//       res.send("success");
-//     }
-//     else {
-//       res.status(404).send('no user');
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     next(error);
-//   }
-// });
+router.post('/findid', isNotLoggedIn, async (req, res, next) => {
+  const { nickName } = req.body;
+  try {
+    const user = await User.findOne({ where: {nick: nickName }});
+    if (user) {
+      const find_email = user.email;
+      alert(find_email);
+      res.redirect('/editidpw');
+    }
+    else {
+      res.status(404).send('no user');
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
 
 router.post('/changpw', isLoggedIn, async (req, res, next) => {
   const { current_password, new_password, new_password_check } = req.body;
