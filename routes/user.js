@@ -90,7 +90,16 @@ router.post('/changpw', isLoggedIn, async (req, res, next) => {
             await User.update({ password: hash }, {where: {id: req.user.id}});
             res.redirect('/auth/logout');
           }
+          else {
+            res.status(404).send('password current is wrong');
+          }
         }
+        else {
+          res.status(404).send('password is not changed');
+        }
+      }
+      else {
+        res.status(404).send('own password is not correct');
       }
     }
     else {
