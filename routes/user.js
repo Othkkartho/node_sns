@@ -46,8 +46,7 @@ router.post('/changnick', isLoggedIn, async (req, res, next) => {
     if (user) {
       await User.update({ nick: changNick }, { where: {id: req.user.id} });
       res.send("success");
-    }
-    else {
+    } else {
       res.status(404).send('no user');
     }
     return res.redirect('/');
@@ -65,8 +64,7 @@ router.post('/findid', isNotLoggedIn, async (req, res, next) => {
       const find_email = user.email;
       alert(find_email);
       res.redirect('/editidpw');
-    }
-    else {
+    } else {
       res.status(404).send('no user');
     }
   } catch (error) {
@@ -89,11 +87,16 @@ router.post('/changpw', isLoggedIn, async (req, res, next) => {
             const hash = await bcrypt.hash(new_password, 12);
             await User.update({ password: hash }, {where: {id: req.user.id}});
             res.redirect('/auth/logout');
+          } else {
+            res.status(404).send('password current is wrong');
           }
+        } else {
+          res.status(404).send('password is not changed');
         }
+      } else {
+        res.status(404).send('own password is not correct');
       }
-    }
-    else {
+    } else {
       res.status(404).send('no user');
     }
   } catch (error) {

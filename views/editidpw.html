@@ -1,16 +1,16 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="timeline">
-  <div>
-    <h2>아이디/비밀번호 찾기</h2>
-    <h3>아이디 찾기</h3>
-    <form id="find-id-form" action="/user/findid" method="post">
-      <div class="input-group">
-        <label for="check-nick">닉네임 입력</label>
-        <input id="check-nick" type="text" name="nickName"></div>
-      <button id="find-id-btn" class="btn">아이디 찾기</button>
-    </form>
+  <div class="timeline">
+    <div>
+      <h2>아이디/비밀번호 찾기</h2>
+      <h3>아이디 찾기</h3>
+      <form id="find-id-form" action="/user/findid" method="post">
+        <div class="input-group">
+          <label for="check-nick">닉네임 입력</label>
+          <input id="check-nick" type="text" name="nickName"></div>
+        <button id="find-id-btn" class="btn">아이디 찾기</button>
+      </form>
+    </div>
   </div>
-</div>
 {% endblock %}
